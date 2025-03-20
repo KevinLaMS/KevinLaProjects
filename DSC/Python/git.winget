@@ -1,0 +1,10 @@
+properties:
+  resources:
+  - resource: Microsoft.WinGet.DSC/WinGetPackage
+    settings:
+      id: Git.Git
+      source: winget
+    directives:
+      description: Git
+      allowPrerelease: true
+  configurationVersion: 0.2.0

@@ -1,0 +1,10 @@
+properties:
+  resources:
+  - resource: Microsoft.WinGet.DSC/WinGetPackage
+    settings:
+      id: Microsoft.VisualStudio.2022.Community
+      source: winget
+    directives:
+      description: Visual Studio Community 2022
+      allowPrerelease: true
+  configurationVersion: 0.2.0

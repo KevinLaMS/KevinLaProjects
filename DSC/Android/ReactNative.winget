@@ -1,0 +1,38 @@
+properties:
+  resources:
+  - resource: Microsoft.WinGet.DSC/WinGetPackage
+    settings:
+      id: Microsoft.VisualStudioCode
+      source: winget
+    directives:
+      description: Microsoft Visual Studio Code
+      allowPrerelease: true
+  - resource: Microsoft.WinGet.DSC/WinGetPackage
+    settings:
+      id: Google.AndroidStudio
+      source: winget
+    directives:
+      description: Android Studio
+      allowPrerelease: true
+  - resource: Microsoft.WinGet.DSC/WinGetPackage
+    settings:
+      id: OpenJS.NodeJS
+      source: winget
+    directives:
+      description: Node.js
+      allowPrerelease: true
+  - resource: Microsoft.WinGet.DSC/WinGetPackage
+    settings:
+      id: Oracle.JDK.23
+      source: winget
+    directives:
+      description: Java(TM) SE Development Kit 23
+      allowPrerelease: true
+  - resource: Microsoft.WinGet.DSC/WinGetPackage
+    settings:
+      id: Microsoft.OpenJDK.17
+      source: winget
+    directives:
+      description: Microsoft Build of OpenJDK with Hotspot 17
+      allowPrerelease: true
+  configurationVersion: 0.2.0

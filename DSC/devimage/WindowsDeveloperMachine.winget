@@ -1,0 +1,86 @@
+properties:
+  resources:
+  - directives:
+      allowPrerelease: true
+      description: Git
+    id: Git.Git
+    settings:
+      id: Git.Git
+      source: winget
+    resource: Microsoft.WinGet.DSC/WinGetPackage
+  - directives:
+      allowPrerelease: true
+      description: Visual Studio Community 2022
+    id: Microsoft.VisualStudio.2022.Community
+    settings:
+      id: Microsoft.VisualStudio.2022.Community
+      source: winget
+    resource: Microsoft.WinGet.DSC/WinGetPackage
+  - directives:
+      allowPrerelease: true
+      description: Install required VS Workloads (Universal)
+    settings:
+      components:
+      - Microsoft.VisualStudio.Workload.ManagedDesktop
+      channelId: VisualStudio.17.Release
+      productId: Microsoft.VisualStudio.Workload.ManagedDesktop
+    dependsOn:
+    - Microsoft.VisualStudio.2022.Community
+    id: Microsoft.VisualStudio.Workload.ManagedDesktop
+    resource: Microsoft.VisualStudio.DSC/VSComponents
+  - directives:
+      allowPrerelease: true
+      description: Install required VS Workloads (Universal)
+    settings:
+      components:
+      - Microsoft.VisualStudio.Workload.NativeDesktop
+      channelId: VisualStudio.17.Release
+      productId: Microsoft.VisualStudio.Workload.NativeDesktop
+    dependsOn:
+    - Microsoft.VisualStudio.2022.Community
+    id: Microsoft.VisualStudio.Workload.NativeDesktop
+    resource: Microsoft.VisualStudio.DSC/VSComponents
+  - directives:
+      allowPrerelease: true
+      description: Install required VS Workloads (Universal)
+    settings:
+      components:
+      - Microsoft.VisualStudio.Workload.Universal
+      channelId: VisualStudio.17.Release
+      productId: Microsoft.VisualStudio.Workload.Universal
+    dependsOn:
+    - Microsoft.VisualStudio.2022.Community
+    id: Microsoft.VisualStudio.Workload.Universal
+    resource: Microsoft.VisualStudio.DSC/VSComponents
+  - directives:
+      allowPrerelease: true
+      description: Windows Terminal
+    id: Microsoft.WindowsTerminal
+    settings:
+      id: Microsoft.WindowsTerminal
+      source: winget
+    resource: Microsoft.WinGet.DSC/WinGetPackage
+  - directives:
+      allowPrerelease: true
+      description: Ubuntu 24.04 LTS
+    id: Canonical.Ubuntu.2404
+    settings:
+      id: Canonical.Ubuntu.2404
+      source: winget
+    resource: Microsoft.WinGet.DSC/WinGetPackage
+  - directives:
+      allowPrerelease: true
+      description: GitHub Desktop
+    id: GitHub.GitHubDesktop
+    settings:
+      id: GitHub.GitHubDesktop
+      source: winget
+    resource: Microsoft.WinGet.DSC/WinGetPackage
+  - directives:
+      allowPrerelease: true
+      description: Enable Developer Mode
+    id: Enable
+    settings:
+      Ensure: Present
+    resource: Microsoft.Windows.Developer/DeveloperMode
+  configurationVersion: 0.2.0

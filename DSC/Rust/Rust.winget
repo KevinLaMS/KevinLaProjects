@@ -1,0 +1,17 @@
+properties:
+  resources:
+  - resource: Microsoft.WinGet.DSC/WinGetPackage
+    settings:
+      id: Rustlang.Rustup
+      source: winget
+    directives:
+      description: 'Rustup: the Rust toolchain installer'
+      allowPrerelease: true
+  - resource: Microsoft.WinGet.DSC/WinGetPackage
+    settings:
+      id: Microsoft.VisualStudioCode
+      source: winget
+    directives:
+      description: Microsoft Visual Studio Code
+      allowPrerelease: true
+  configurationVersion: 0.2.0

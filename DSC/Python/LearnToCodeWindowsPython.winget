@@ -1,0 +1,24 @@
+properties:
+  resources:
+  - resource: Microsoft.WinGet.DSC/WinGetPackage
+    settings:
+      id: Python.Python.3.13
+      source: winget
+    directives:
+      description: Python 3.13
+      allowPrerelease: true
+  - resource: Microsoft.WinGet.DSC/WinGetPackage
+    settings:
+      id: Microsoft.VisualStudioCode
+      source: winget
+    directives:
+      description: Microsoft Visual Studio Code
+      allowPrerelease: true
+  - resource: Microsoft.WinGet.DSC/WinGetPackage
+    settings:
+      id: Git.Git
+      source: winget
+    directives:
+      description: Git
+      allowPrerelease: true
+  configurationVersion: 0.2.0

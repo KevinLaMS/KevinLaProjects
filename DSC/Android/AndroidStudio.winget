@@ -1,0 +1,10 @@
+properties:
+  resources:
+  - resource: Microsoft.WinGet.DSC/WinGetPackage
+    settings:
+      id: Google.AndroidStudio
+      source: winget
+    directives:
+      description: Android Studio
+      allowPrerelease: true
+  configurationVersion: 0.2.0
