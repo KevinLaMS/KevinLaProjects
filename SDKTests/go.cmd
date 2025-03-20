@@ -1,6 +1,12 @@
 if %1. ==. goto :needurl
 Echo to be run in a devbox
 
+Curl %1 -o c:\temp\setup.exe
+\temp\setup.exe /q
+
+echo wait until installed....
+
+
 winget configure samples.winget
 
 echo clone powertoys in VS
@@ -28,4 +34,4 @@ pause
 goto :end
 :needurl
 Echo pass in url
-echo https://download.microsoft.com/download/5/d/6/5d6636b7-f66a-4baf-bcd0-c663626c738d/Installers/winsdksetup.exe
+echo https://download.microsoft.com/download/5/d/6/5d6636b7-f66a-4baf-bcd0-c663626c738d/winsdksetup.exe
