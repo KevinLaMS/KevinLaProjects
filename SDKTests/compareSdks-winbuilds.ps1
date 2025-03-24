@@ -1,4 +1,5 @@
 param( $baseversion,  $newversion)
+Get-Date
 if (-not($newversion -gt 1)) {
 
 Dir \\winbuilds\release\Ge_release_svc_prod3
@@ -61,3 +62,5 @@ pause
                 }
 		$results=$null
 }
+
+Get-Date
