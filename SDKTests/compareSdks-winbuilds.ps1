@@ -13,15 +13,19 @@ Write-Host Compare headers
 	$armContent="\arm64fre\kit_src\Content\"
         $basefullpath = $winbuilds  + "\" + $baseversion + $x86content
         $newfullpath = $winbuilds + "\" + $newversion + $x86content
+	# $folderlist= @(
+	#			"desktop_shared_headers_(x86)", 
+	#			"desktop_user_mode_headers_(x86)", 
+	#			"desktop_windows_runtime_headers_(x86)",
+	#			"modern_shared_headers_onecoreuap_(x86)",
+	#			"modern_user_mode_headers_(x86)",
+	#			"modern_windows_runtime_headers_(x86)",
+	#			"shared_headers_onecoreuap_(x86)",
+	#			"universal_crt_headers")
 	$folderlist= @(
-				"desktop_shared_headers_(x86)", 
-				"desktop_user_mode_headers_(x86)", 
-				"desktop_windows_runtime_headers_(x86)",
-				"modern_shared_headers_onecoreuap_(x86)",
-				"modern_user_mode_headers_(x86)",
-				"modern_windows_runtime_headers_(x86)",
-				"shared_headers_onecoreuap_(x86)",
-				"universal_crt_headers")
+				
+				"modern_shared_headers_onecoreuap_(x86)" 
+)
 
 }
 
@@ -39,8 +43,9 @@ Write-Host Compare headers
 		foreach ($file in $newfiles) {
                 	$oldfile=$file.fullname.replace($newfullpathfolder,$basefullpathfolder)
 			diff (cat $file.fullname) (cat $oldfile)
-	                $results = diff (cat $file.fullname) (cat $oldfile)		
+	                $results += diff (cat $file.fullname) (cat $oldfile)  		
 		}
+
                 if ($results -like "*because it does not exist.*"){
                         write-host NEW $file.fullname -foregroundcolor blue
                 }
@@ -49,7 +54,10 @@ Write-Host Compare headers
 
                         if(-not ($results.inputobject -eq "")){
                         Write-host $file.fullname -foregroundcolor red | out-file -filepath 	$DiffReport -append
+write-host did it write?
+pause
                         diff (cat $file.fullname) (cat $oldfile) | out-file -filepath 	$DiffReport -append
                         }
                 }
+		$results=$null
 }
