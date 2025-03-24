@@ -14,20 +14,15 @@ Write-Host Compare headers
 	$armContent="\arm64fre\kit_src\Content\"
         $basefullpath = $winbuilds  + "\" + $baseversion + $x86content
         $newfullpath = $winbuilds + "\" + $newversion + $x86content
-	# $folderlist= @(
-	#			"desktop_shared_headers_(x86)", 
-	#			"desktop_user_mode_headers_(x86)", 
-	#			"desktop_windows_runtime_headers_(x86)",
-	#			"modern_shared_headers_onecoreuap_(x86)",
-	#			"modern_user_mode_headers_(x86)",
-	#			"modern_windows_runtime_headers_(x86)",
-	#			"shared_headers_onecoreuap_(x86)",
-	#			"universal_crt_headers")
-	$folderlist= @(
-				
-				"modern_shared_headers_onecoreuap_(x86)" 
-)
-
+	 $folderlist= @(
+				"desktop_shared_headers_(x86)", 
+				"desktop_user_mode_headers_(x86)", 
+				"desktop_windows_runtime_headers_(x86)",
+				"modern_shared_headers_onecoreuap_(x86)",
+				"modern_user_mode_headers_(x86)",
+				"modern_windows_runtime_headers_(x86)",
+				"shared_headers_onecoreuap_(x86)",
+				"universal_crt_headers")
 }
 
 		$count=0
