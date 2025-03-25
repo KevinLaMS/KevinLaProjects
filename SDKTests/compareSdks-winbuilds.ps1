@@ -1,4 +1,5 @@
 param( $baseversion,  $newversion)
+Get-Date
 if (-not($newversion -gt 1)) {
 
 Dir \\winbuilds\release\Ge_release_svc_prod3
@@ -13,7 +14,7 @@ Write-Host Compare headers
 	$armContent="\arm64fre\kit_src\Content\"
         $basefullpath = $winbuilds  + "\" + $baseversion + $x86content
         $newfullpath = $winbuilds + "\" + $newversion + $x86content
-	$folderlist= @(
+	 $folderlist= @(
 				"desktop_shared_headers_(x86)", 
 				"desktop_user_mode_headers_(x86)", 
 				"desktop_windows_runtime_headers_(x86)",
@@ -22,7 +23,6 @@ Write-Host Compare headers
 				"modern_windows_runtime_headers_(x86)",
 				"shared_headers_onecoreuap_(x86)",
 				"universal_crt_headers")
-
 }
 
 		$count=0
@@ -39,8 +39,9 @@ Write-Host Compare headers
 		foreach ($file in $newfiles) {
                 	$oldfile=$file.fullname.replace($newfullpathfolder,$basefullpathfolder)
 			diff (cat $file.fullname) (cat $oldfile)
-	                $results = diff (cat $file.fullname) (cat $oldfile)		
+	                $results += diff (cat $file.fullname) (cat $oldfile)  		
 		}
+
                 if ($results -like "*because it does not exist.*"){
                         write-host NEW $file.fullname -foregroundcolor blue
                 }
@@ -49,7 +50,12 @@ Write-Host Compare headers
 
                         if(-not ($results.inputobject -eq "")){
                         Write-host $file.fullname -foregroundcolor red | out-file -filepath 	$DiffReport -append
+write-host did it write?
+pause
                         diff (cat $file.fullname) (cat $oldfile) | out-file -filepath 	$DiffReport -append
                         }
                 }
+		$results=$null
 }
+
+Get-Date
