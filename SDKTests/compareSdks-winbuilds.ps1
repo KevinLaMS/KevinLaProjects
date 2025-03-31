@@ -2,7 +2,16 @@ param( $baseversion,  $newversion)
 Get-Date
 if (-not($newversion -gt 1)) {
 
-Dir \\winbuilds\release\Ge_release_svc_prod3
+	$location=@(get-childitem -path \\winbuilds\release\Ge_release_svc_prod3)
+	$numberofdirs=$location.count -20
+	$x=0
+
+	foreach ($dirfolder in $location){	
+		if($x -gt $numberofdirs) {write-host $dirfolder
+		}
+		$x++
+
+	}
 } else {
 
 Write-Host Compare headers
