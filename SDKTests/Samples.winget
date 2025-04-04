@@ -74,4 +74,17 @@ properties:
       id: "Microsoft.Powershell"
       source: winget
     id: Microsoft.Powershell
+  - id: Microsoft.VisualStudio.Component.VC.v141.x86.x64
+    settings:
+      channelId: VisualStudio.17.Release
+      productId: Microsoft.VisualStudio.Component.VC.v141.x86.x64
+      components:
+      - Microsoft.VisualStudio.Component.VC.v141.x86.x64
+    resource: Microsoft.VisualStudio.DSC/VSComponents
+    dependsOn:
+    - Microsoft.VisualStudio.2022.Community
+    directives:
+      allowPrerelease: true
+      description: Install required VS tools
+
 configurationVersion: 0.2.0
