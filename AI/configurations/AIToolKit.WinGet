@@ -1,0 +1,82 @@
+properties:
+  configurationVersion: 0.2.0
+  resources:
+  - resource: PSDscResources/Script
+    id: wsl.sudo.aptget.update
+    directives:
+      description: run wsl command
+      allowPrerelease: true
+    settings:
+      GetScript: |
+          # Your custom PowerShell code to check app configuration
+          return $false
+      TestScript: |
+        return $false
+      SetScript: |
+        wsl sudo apt-get update
+        wsl python.exe -m pip install --upgrade pip 
+  - resource: PSDscResources/Script
+    id: wsl.sudo.aptget.install.python3.pip
+    directives:
+      description: run wsl command
+      allowPrerelease: true
+    settings:
+      GetScript: |
+          # Your custom PowerShell code to check app configuration
+          return $false
+      TestScript: |
+        return $false
+      SetScript: |
+        wsl sudo DEBIAN_FRONTEND=noninteractive  apt-get install -y  python3-pip
+  - resource: PSDscResources/Script
+    id: wsl.sudo.install.environment
+    directives:
+      description: run wsl command
+      allowPrerelease: true
+    settings:
+      GetScript: |
+          # Your custom PowerShell code to check app configuration
+          return $false
+      TestScript: |
+        return $false
+      SetScript: |
+        wsl sudo python3 -m venv myenv
+  - resource: PSDscResources/Script
+    id: wsl.sudo.aptget.jupyter
+    directives:
+      description: run wsl command
+      allowPrerelease: true
+    settings:
+      GetScript: |
+          # Your custom PowerShell code to check app configuration
+          return $false
+      TestScript: |
+        return $false
+      SetScript: |
+        wsl source myenv/bin/activate &&  pip install  jupyterlab
+  - resource: PSDscResources/Script
+    id: wsl..sudo.aptget.azure.ai.inference
+    directives:
+      description: run wsl command
+      allowPrerelease: true
+    settings:
+      GetScript: |
+          # Your custom PowerShell code to check app configuration
+          return $false
+      TestScript: |
+        return $false
+      SetScript: |
+        wsl source myenv/bin/activate &&   pip install    azure-ai-inference
+  - resource: PSDscResources/Script
+    id: wsl.sudo.aptget.notebook
+    directives:
+      description: run wsl command
+      allowPrerelease: true
+    settings:
+      GetScript: |
+          # Your custom PowerShell code to check app configuration
+          return $false
+      TestScript: |
+        return $false
+      SetScript: |
+        wsl source myenv/bin/activate && pip install notebook
