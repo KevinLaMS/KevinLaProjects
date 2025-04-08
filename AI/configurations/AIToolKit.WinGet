@@ -13,8 +13,9 @@ properties:
       TestScript: |
         return $false
       SetScript: |
-        wsl sudo apt-get update
-        wsl python.exe -m pip install --upgrade pip 
+        $wsl=$env:windir + "\system32\wsl.exe"
+        & $wsl sudo apt-get update
+        & $wsl python.exe -m pip install --upgrade pip 
   - resource: PSDscResources/Script
     id: wsl.sudo.aptget.install.python3.pip
     directives:
@@ -27,7 +28,8 @@ properties:
       TestScript: |
         return $false
       SetScript: |
-        wsl sudo DEBIAN_FRONTEND=noninteractive  apt-get install -y  python3-pip
+        $wsl=$env:windir + "\system32\wsl.exe"
+        & $wsl sudo DEBIAN_FRONTEND=noninteractive  apt-get install -y  python3-pip
   - resource: PSDscResources/Script
     id: wsl.sudo.install.environment
     directives:
@@ -40,7 +42,9 @@ properties:
       TestScript: |
         return $false
       SetScript: |
-        wsl sudo python3 -m venv myenv
+        $wsl=$env:windir + "\system32\wsl.exe"
+        & $wsl sudo DEBIAN_FRONTEND=noninteractive  apt-get install -y python3.10-venv
+        & $wsl sudo python3 -m venv myenv
   - resource: PSDscResources/Script
     id: wsl.sudo.aptget.jupyter
     directives:
@@ -53,7 +57,8 @@ properties:
       TestScript: |
         return $false
       SetScript: |
-        wsl source myenv/bin/activate &&  pip install  jupyterlab
+        $wsl=$env:windir + "\system32\wsl.exe"
+        & $wsl source myenv/bin/activate &&  pip install  jupyterlab
   - resource: PSDscResources/Script
     id: wsl..sudo.aptget.azure.ai.inference
     directives:
@@ -65,8 +70,9 @@ properties:
           return $false
       TestScript: |
         return $false
-      SetScript: |
-        wsl source myenv/bin/activate &&   pip install    azure-ai-inference
+      SetScript: |    
+        $wsl=$env:windir + "\system32\wsl.exe"
+        & $wsl source myenv/bin/activate &&   pip install    azure-ai-inference
   - resource: PSDscResources/Script
     id: wsl.sudo.aptget.notebook
     directives:
@@ -79,4 +85,5 @@ properties:
       TestScript: |
         return $false
       SetScript: |
-        wsl source myenv/bin/activate && pip install notebook
+        $wsl=$env:windir + "\system32\wsl.exe"
+        & $wsl source myenv/bin/activate && pip install notebook
