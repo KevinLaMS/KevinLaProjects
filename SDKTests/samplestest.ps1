@@ -22,6 +22,7 @@ Get-ChildItem "*.vcxproj" -Recurse | ForEach-Object -Process {
                 $dir=$_.DirectoryName
                 $sln=Get-ChildItem "*.sln" -path $dir
                 write-host Building $sln.fullname
+				msbuild -t:Restore   $sln.fullname  -p:RestorePackagesConfig=true
                 $myerror= msbuild $sln.fullname /property:Configuration=Debug /property:Platform=x64
 
                 if ($myerror -like "*Build FAILED*") {Write-host $myerror -foregroundcolor red
