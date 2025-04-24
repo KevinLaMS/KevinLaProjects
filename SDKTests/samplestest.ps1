@@ -43,6 +43,9 @@ write-host Total: $count
 foreach($o in $broken) {write-host $o -foregroundcolor red}
 Write-host Success: $pass -foregroundcolor green
 Write-host Fail: $fail  -foregroundcolor red
-
+Write-Host
+write-host PassKey requires additional headers so failure OK
+write-host toast requires wix so failure OK
+write-host DisplayCoreCustomCompositor has winrt error 
 
 
