@@ -1,90 +1,88 @@
-properties:
-  configurationVersion: 0.2.0
-  resources:
-  - directives:
-      allowPrerelease: true
-      description: Visual Studio Community 2022
-    resource: Microsoft.WinGet.DSC/WinGetPackage
-    settings:
-      source: winget
-      id: Microsoft.VisualStudio.2022.Community
-    id: Microsoft.VisualStudio.2022.Community
-  - id: Microsoft.VisualStudio.Workload.NativeDesktop
-    settings:
-      channelId: VisualStudio.17.Release
-      productId: Microsoft.VisualStudio.Workload.NativeDesktop
-      components:
-      - Microsoft.VisualStudio.Workload.NativeDesktop
-    resource: Microsoft.VisualStudio.DSC/VSComponents
-    dependsOn:
-    - Microsoft.VisualStudio.2022.Community
-    directives:
-      allowPrerelease: true
-      description: Install required VS Workloads (Universal)
-  - id: Microsoft.VisualStudio.Workload.ManagedDesktop
-    settings:
-      channelId: VisualStudio.17.Release
-      productId: Microsoft.VisualStudio.Workload.ManagedDesktop
-      components:
-      - Microsoft.VisualStudio.Workload.ManagedDesktop
-    resource: Microsoft.VisualStudio.DSC/VSComponents
-    dependsOn:
-    - Microsoft.VisualStudio.2022.Community
-    directives:
-      allowPrerelease: true
-      description: Install required VS Workloads (Universal)
-  - id: Microsoft.VisualStudio.Workload.Universal
-    settings:
-      channelId: VisualStudio.17.Release
-      productId: Microsoft.VisualStudio.Workload.Universal
-      components:
-      - Microsoft.VisualStudio.Workload.Universal
-    resource: Microsoft.VisualStudio.DSC/VSComponents
-    dependsOn:
-    - Microsoft.VisualStudio.2022.Community
-    directives:
-      allowPrerelease: true
-      description: Install required VS Workloads (Universal)
-  - resource: Microsoft.WinGet.DSC/WinGetPackage
-    directives:
-      description: Installing Git
-      allowPrerelease: true
-      securityContext: current
-    settings:
-      id: "Git.Git"
-      source: winget
-    id: Git.Git
-  - resource: GitDsc/GitClone
-    directives:
-      description: 'Cloning: samples'
-      allowPrerelease: true
-      securityContext: current
-    settings:
-      httpsUrl: https://github.com/microsoft/Windows-classic-samples
-      rootDirectory: C:\Users\Public\Documents\source\repos\samples
-    id: 'Clone devhome: C:\Users\Public\Documents\source\repos\samples'
-    dependsOn:
-    - Git.Git
-  - resource: Microsoft.WinGet.DSC/WinGetPackage
-    directives:
-      description: Installing powershell
-      allowPrerelease: true
-      securityContext: current
-    settings:
-      id: "Microsoft.Powershell"
-      source: winget
-    id: Microsoft.Powershell
-  - id: Microsoft.VisualStudio.Component.VC.v141.x86.x64
-    settings:
-      channelId: VisualStudio.17.Release
-      productId: Microsoft.VisualStudio.Component.VC.v141.x86.x64
-      components:
-      - Microsoft.VisualStudio.Component.VC.v141.x86.x64
-    resource: Microsoft.VisualStudio.DSC/VSComponents
-    dependsOn:
-    - Microsoft.VisualStudio.2022.Community
-    directives:
-      allowPrerelease: true
-      description: Install required VS tools
+# yaml-language-server: $schema=https://aka.ms/configuration-dsc-schema/0.2
 
-configurationVersion: 0.2.0
+##########################################################################################################
+# This configuration will install the tools necessary to get started with C# development on Windows      #
+# Reference: https://learn.microsoft.com/visualstudio/get-started/csharp/tutorial-console                #
+#                                                                                                        #
+# This will:                                                                                             #
+#     * Enable Developer Mode                                                                            #
+#     * Install GitHub Desktop                                                                           #
+#     * Install Visual Studio Community 2022                                                             #
+#     * Install Managed Desktop Workload to Visual Studio Community 2022                                 #
+#     * Install Universal Workload to Visual Studio Community 2022                                       #
+#                                                                                                        #
+##########################################################################################################
+properties:
+  resources:
+    - resource: Microsoft.Windows.Settings/WindowsSettings
+      directives:
+        description: Enable Developer Mode
+        allowPrerelease: true
+        securityContext: elevated
+      settings:
+        DeveloperMode: true
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: GitHub Desktop
+      directives:
+        description: Install GitHub Desktop
+      settings:
+        id: GitHub.GitHubDesktop
+        source: winget
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: Visual Studio
+      directives:
+        description: Install Visual Studio 2022 Community
+        securityContext: elevated
+      settings:
+        id: Microsoft.VisualStudio.2022.Community
+        source: winget
+    - resource: Microsoft.VisualStudio.DSC/VSComponents
+      id: Workloads ManagedDesktop
+      dependsOn:
+        - Visual Studio
+      directives:
+        description: Install required VS Workloads (ManagedDesktop)
+        allowPrerelease: true
+        securityContext: elevated
+      settings:
+        productId: Microsoft.VisualStudio.Product.Community
+        channelId: VisualStudio.17.Release
+        components:
+          - Microsoft.VisualStudio.Workload.ManagedDesktop
+          - Microsoft.VisualStudio.Workload.NativeDesktop
+          - Microsoft.VisualStudio.Component.VC.v141.x86.x64
+    - resource: Microsoft.VisualStudio.DSC/VSComponents
+      id: Workloads Universal
+      dependsOn:
+        - Visual Studio
+      directives:
+        description: Install required VS Workloads (Universal)
+        allowPrerelease: true
+        securityContext: elevated
+      settings:
+        productId: Microsoft.VisualStudio.Product.Community
+        channelId: VisualStudio.17.Release
+        components:
+          - Microsoft.VisualStudio.Workload.Universal
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      directives:
+        description: Installing Git
+        allowPrerelease: true
+        securityContext: current
+      settings:
+        id: "Git.Git"
+        source: winget
+      id: Git.Git
+    - resource: GitDsc/GitClone
+      directives:
+        description: 'Cloning: samples'
+        allowPrerelease: true
+        securityContext: current
+      settings:
+        httpsUrl: https://github.com/microsoft/Windows-classic-samples
+        rootDirectory: C:\Users\Public\Documents\source\repos\samples
+      id: 'Clone devhome: C:\Users\Public\Documents\source\repos\samples'
+      dependsOn:
+      - Git.Git
+
+  configurationVersion: 0.2.0
