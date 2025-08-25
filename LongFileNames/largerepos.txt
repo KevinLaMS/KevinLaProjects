@@ -1,0 +1,18 @@
+Echo Linux Kernel 
+git clone https://github.com/torvalds/linux.git
+echo  TensorFlow (tensorflow/tensorflow)
+https://github.com/tensorflow/tensorflow.git
+echo Godot Engine (godotengine/godot)
+git clone https://github.com/godotengine/godot.git
+
+Echo LLVM Project (llvm/llvm-project)
+
+git clone https://github.com/llvm/llvm-project.git
+
+echo Windows Driver Samples (microsoft/Windows-driver-samples)
+
+git clone https://github.com/microsoft/Windows-driver-samples.git
+
+echo Apache Hadoop (apache/hadoop)
+
+git clone https://github.com/apache/hadoop.git
