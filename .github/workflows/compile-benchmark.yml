@@ -43,6 +43,20 @@ jobs:
           end=$(date +%s%3N)
           echo "| Linux | C++ | $((end - start)) ms |" >> ../results/timing-log.md
 
+      - name: Install .NET SDK
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y dotnet-sdk-8.0
+
+      - name: Benchmark .NET
+        run: |
+          cd dotnet_project
+          start=$(date +%s%3N)
+          dotnet build -c Release
+          end=$(date +%s%3N)
+          echo "| Linux | .NET | $((end - start)) ms |" >> ../results/timing-log.md
+
+
       - uses: actions/upload-artifact@v4
         with:
           name: linux-results
@@ -91,6 +105,20 @@ jobs:
           $end = Get-Date
           $duration = ($end - $start).TotalMilliseconds
           Add-Content ../results/timing-log.md "| Windows | C++ | $duration ms |"
+
+      - name: Install .NET SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Benchmark .NET
+        run: |
+          cd dotnet_project
+          $start = Get-Date
+          dotnet build -c Release
+          $end = Get-Date
+          $duration = ($end - $start).TotalMilliseconds
+          Add-Content ../results/timing-log.md "| Windows | .NET | $duration ms |"
 
       - uses: actions/upload-artifact@v4
         with:
