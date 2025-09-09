@@ -8,8 +8,11 @@ jobs:
     runs-on: ubuntu-latest
     name: 🐧 Linux Build
     steps:
-      - name: Checkout VS Code
-        uses: actions/checkout@v3
+      - name: Clone VS Code
+        run: |
+          git clone https://github.com/microsoft/vscode.git
+          cd vscode
+          echo "VS Code cloned successfully."
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -20,10 +23,12 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y libx11-dev libxkbfile-dev libsecret-1-dev
+          cd vscode
           yarn install
 
       - name: Benchmark Build Time
         run: |
+          cd vscode
           start=$(date +%s)
           yarn run compile
           end=$(date +%s)
@@ -31,6 +36,7 @@ jobs:
 
       - name: Validate Artifacts
         run: |
+          cd vscode
           ls -lh out/
           find out/ -type f -exec sha256sum {} \; > linux_checksums.txt
 
@@ -38,8 +44,11 @@ jobs:
     runs-on: windows-11
     name: 🪟 Windows Build
     steps:
-      - name: Checkout VS Code
-        uses: actions/checkout@v3
+      - name: Clone VS Code
+        run: |
+          git clone https://github.com/microsoft/vscode.git
+          cd vscode
+          Write-Host "VS Code cloned successfully."
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -47,10 +56,13 @@ jobs:
           node-version: '18'
 
       - name: Install Dependencies
-        run: yarn install
+        run: |
+          cd vscode
+          yarn install
 
       - name: Benchmark Build Time
         run: |
+          cd vscode
           $start = Get-Date
           yarn run compile
           $end = Get-Date
@@ -58,6 +70,7 @@ jobs:
 
       - name: Validate Artifacts
         run: |
+          cd vscode
           Get-ChildItem -Path out -Recurse | ForEach-Object {
             Write-Host "$($_.FullName) - $($_.Length / 1MB) MB"
           }
