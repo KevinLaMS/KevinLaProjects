@@ -48,7 +48,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y dotnet-sdk-8.0
 
-      - name: Benchmark .NET
+      - nagit me: Benchmark .NET
         run: |
           cd dotnet_project
           start=$(date +%s%3N)
@@ -64,7 +64,7 @@ jobs:
 
   compile-windows:
     name: Compile on Windows
-    runs-on: windows-latest
+    runs-on: windows-11
     steps:
       - uses: actions/checkout@v3
 

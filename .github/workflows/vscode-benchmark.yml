@@ -1,0 +1,64 @@
+name: VSCode Build Benchmark
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    name: 🐧 Linux Build
+    steps:
+      - name: Checkout VS Code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libx11-dev libxkbfile-dev libsecret-1-dev
+          yarn install
+
+      - name: Benchmark Build Time
+        run: |
+          start=$(date +%s)
+          yarn run compile
+          end=$(date +%s)
+          echo "Linux Build Time: $((end - start)) seconds"
+
+      - name: Validate Artifacts
+        run: |
+          ls -lh out/
+          find out/ -type f -exec sha256sum {} \; > linux_checksums.txt
+
+  build-windows:
+    runs-on: windows-11
+    name: 🪟 Windows Build
+    steps:
+      - name: Checkout VS Code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install Dependencies
+        run: yarn install
+
+      - name: Benchmark Build Time
+        run: |
+          $start = Get-Date
+          yarn run compile
+          $end = Get-Date
+          Write-Host "Windows Build Time: $($end - $start)"
+
+      - name: Validate Artifacts
+        run: |
+          Get-ChildItem -Path out -Recurse | ForEach-Object {
+            Write-Host "$($_.FullName) - $($_.Length / 1MB) MB"
+          }
+          Get-FileHash -Path out\* -Algorithm SHA256 | Out-File windows_checksums.txt
