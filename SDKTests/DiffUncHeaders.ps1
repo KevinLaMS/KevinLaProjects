@@ -1,3 +1,6 @@
+exit
+
+
 param( [string] $baseline, [string] $new)
 $location=get-location
 $newpath = $location.path + "\" + $new + "\Include\10.0.26100.0\"

@@ -16,3 +16,13 @@ Foreach ($row in $findstr) {
 	}
 }
 
+curl https://www.nuget.org/packages/Microsoft.windows.sdk.net.ref -o c:\temp\ref.txt
+$findstr = Findstr /isc:flat \temp\ref.txt
+
+Foreach ($row in $findstr) {
+	if ($row -like "*microsoft.windows.sdk*" -and (-not($row -like "*$version*"))){
+		Write-host Error $row -foregroundcolor red
+	} else { 	
+		if ($row -like "*microsoft.windows.sdk*" ){	Write-host Error $row -foregroundcolor green}
+	}
+}

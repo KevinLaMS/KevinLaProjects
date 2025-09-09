@@ -15,7 +15,6 @@ properties:
       SetScript: |
         $wsl=$env:windir + "\system32\wsl.exe"
         & $wsl sudo apt-get update
-        & $wsl python.exe -m pip install --upgrade pip 
   - resource: PSDscResources/Script
     id: wsl.sudo.aptget.install.python3.pip
     directives:
@@ -30,6 +29,7 @@ properties:
       SetScript: |
         $wsl=$env:windir + "\system32\wsl.exe"
         & $wsl sudo DEBIAN_FRONTEND=noninteractive  apt-get install -y  python3-pip
+        #  & $wsl python3 -m pip install --upgrade pip 
   - resource: PSDscResources/Script
     id: wsl.sudo.install.environment
     directives:
