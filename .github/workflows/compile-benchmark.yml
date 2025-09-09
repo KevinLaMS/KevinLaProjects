@@ -85,7 +85,6 @@ jobs:
 
       - name: Benchmark C++
         run: |
-  	uses: ilammy/msvc-dev-cmd@v1
           cd cpp_project
           $start = Get-Date
           cl main.cpp /O2 /Fe:main.exe
