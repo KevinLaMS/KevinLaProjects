@@ -18,20 +18,6 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y golang g++
 
-      - name: Create Rust project if missing
-        run: |
-          if [ ! -f rust_project/Cargo.toml ]; then
-            echo "Creating rust_project..."
-            cargo new rust_project
-            echo 'fn main() {
-                let mut total = 0u64;
-                for i in 0..100_000_000 {
-                    total = total.wrapping_add(i);
-                }
-                println!("Rust total: {}", total);
-            }' > rust_project/src/main.rs
-          fi
-
       - name: Benchmark Rust
         run: |
           mkdir -p results
