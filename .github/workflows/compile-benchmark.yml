@@ -80,6 +80,9 @@ jobs:
           $duration = ($end - $start).TotalMilliseconds
           Add-Content ../results/timing-log.md "| Windows | Go | $duration ms |"
 
+      - name: Enable MSVC Developer Command Prompt
+  	uses: ilammy/msvc-dev-cmd@v1
+
       - name: Benchmark C++
         run: |
           cd cpp_project
