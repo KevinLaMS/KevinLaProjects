@@ -10,26 +10,40 @@ jobs:
     name: Compile on Linux
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      - name: Install Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          override: true
+      - name: Install Rust & Go
+        run: |
+          curl https://sh.rustup.rs -sSf | sh -s -- -y
+          sudo apt-get update
+          sudo apt-get install -y golang g++
 
-      - name: Benchmark compile time
+      - name: Benchmark Rust
         run: |
           mkdir -p results
+          cd rust_project
           start=$(date +%s%3N)
           cargo build --release
           end=$(date +%s%3N)
-          duration=$((end - start))
-          echo "| Linux | $duration ms |" >> results/timing-log.md
+          echo "| Linux | Rust | $((end - start)) ms |" >> ../results/timing-log.md
 
-      - name: Upload results
-        uses: actions/upload-artifact@v4
+      - name: Benchmark Go
+        run: |
+          cd go_project
+          start=$(date +%s%3N)
+          go build main.go
+          end=$(date +%s%3N)
+          echo "| Linux | Go | $((end - start)) ms |" >> ../results/timing-log.md
+
+      - name: Benchmark C++
+        run: |
+          cd cpp_project
+          start=$(date +%s%3N)
+          g++ -O2 main.cpp -o main
+          end=$(date +%s%3N)
+          echo "| Linux | C++ | $((end - start)) ms |" >> ../results/timing-log.md
+
+      - uses: actions/upload-artifact@v4
         with:
           name: linux-results
           path: results/timing-log.md
@@ -38,23 +52,42 @@ jobs:
     name: Compile on Windows
     runs-on: windows-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      - name: Install Rust
-        run: rustup update
+      - name: Install Rust & Go
+        run: |
+          rustup update
+          choco install golang
 
-      - name: Benchmark compile time
+      - name: Benchmark Rust
         run: |
           New-Item -ItemType Directory -Path results -Force
+          cd rust_project
           $start = Get-Date
           cargo build --release
           $end = Get-Date
           $duration = ($end - $start).TotalMilliseconds
-          Add-Content results/timing-log.md "| Windows | $duration ms |"
+          Add-Content ../results/timing-log.md "| Windows | Rust | $duration ms |"
 
-      - name: Upload results
-        uses: actions/upload-artifact@v4
+      - name: Benchmark Go
+        run: |
+          cd go_project
+          $start = Get-Date
+          go build main.go
+          $end = Get-Date
+          $duration = ($end - $start).TotalMilliseconds
+          Add-Content ../results/timing-log.md "| Windows | Go | $duration ms |"
+
+      - name: Benchmark C++
+        run: |
+          cd cpp_project
+          $start = Get-Date
+          cl main.cpp /O2 /Fe:main.exe
+          $end = Get-Date
+          $duration = ($end - $start).TotalMilliseconds
+          Add-Content ../results/timing-log.md "| Windows | C++ | $duration ms |"
+
+      - uses: actions/upload-artifact@v4
         with:
           name: windows-results
           path: results/timing-log.md
