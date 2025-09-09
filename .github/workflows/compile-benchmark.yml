@@ -29,7 +29,7 @@ jobs:
           echo "| Linux | $duration ms |" >> results/timing-log.md
 
       - name: Upload results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: linux-results
           path: results/timing-log.md
@@ -54,7 +54,7 @@ jobs:
           Add-Content results/timing-log.md "| Windows | $duration ms |"
 
       - name: Upload results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: windows-results
           path: results/timing-log.md
