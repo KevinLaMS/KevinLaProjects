@@ -41,7 +41,7 @@ jobs:
           find out/ -type f -exec sha256sum {} \; > linux_checksums.txt
 
   build-windows:
-    runs-on: windows-11
+    runs-on: windows-latest
     name: 🪟 Windows Build
     steps:
       - name: Clone VS Code

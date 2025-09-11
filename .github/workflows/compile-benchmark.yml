@@ -64,7 +64,7 @@ jobs:
 
   compile-windows:
     name: Compile on Windows
-    runs-on: windows-11
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
 
